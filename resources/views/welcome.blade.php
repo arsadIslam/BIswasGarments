@@ -136,6 +136,79 @@
             margin: 0;
         }
 
+        .profile-menu {
+            align-items: center;
+            background: var(--soft);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            display: flex;
+            gap: 0.45rem;
+            padding: 0.3rem;
+        }
+
+        .profile-card {
+            align-items: center;
+            display: flex;
+            gap: 0.65rem;
+            padding: 0 0.35rem 0 0;
+        }
+
+        .profile-avatar,
+        .shortcut-avatar {
+            align-items: center;
+            background: var(--black);
+            border-radius: 50%;
+            color: var(--paper);
+            display: inline-flex;
+            font-weight: 900;
+            justify-content: center;
+            letter-spacing: -0.04em;
+        }
+
+        .profile-avatar {
+            height: 2.45rem;
+            width: 2.45rem;
+        }
+
+        .profile-name {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 900;
+            line-height: 1.1;
+            max-width: 115px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .profile-label {
+            color: var(--muted);
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .logout-button {
+            align-items: center;
+            background: var(--black);
+            border: 0;
+            border-radius: 999px;
+            color: var(--paper);
+            cursor: pointer;
+            display: inline-flex;
+            font-weight: 900;
+            gap: 0.4rem;
+            min-height: 2.45rem;
+            padding: 0 0.9rem;
+        }
+
+        .logout-button .icon {
+            height: 1rem;
+            width: 1rem;
+        }
+
         .search {
             align-items: center;
             background: var(--soft);
@@ -210,6 +283,12 @@
 
         .mobile-shortcuts form {
             margin: 0;
+        }
+
+        .shortcut-avatar {
+            font-size: 0.72rem;
+            height: 1.35rem;
+            width: 1.35rem;
         }
 
         .hero {
@@ -903,6 +982,10 @@
                 display: none;
             }
 
+            .profile-menu {
+                display: none;
+            }
+
             .hero {
                 padding-top: 0.9rem;
             }
@@ -999,17 +1082,36 @@
                         <path d="M19.5 12.6 12 20l-7.5-7.4a5 5 0 0 1 7.1-7.1l.4.4.4-.4a5 5 0 0 1 7.1 7.1Z"></path>
                     </svg>
                 </a>
+                <a class="icon-button" href="#cart" aria-label="Shopping cart">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 8h12l-1 13H7L6 8Z"></path>
+                        <path d="M9 8a3 3 0 0 1 6 0"></path>
+                    </svg>
+                    <span class="cart-count">2</span>
+                </a>
                 @auth
-                    <form class="logout-form" method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button class="icon-button" type="submit" aria-label="Logout">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                <path d="m16 17 5-5-5-5"></path>
-                                <path d="M21 12H9"></path>
-                            </svg>
-                        </button>
-                    </form>
+                    <div class="profile-menu">
+                        <a class="profile-card" href="#profile" aria-label="Profile">
+                            <span class="profile-avatar">
+                                {{ strtoupper(substr(auth()->user()->first_name ?? auth()->user()->name, 0, 1)) }}
+                            </span>
+                            <span>
+                                <span class="profile-name">{{ auth()->user()->first_name ?? auth()->user()->name }}</span>
+                                <span class="profile-label">Profile</span>
+                            </span>
+                        </a>
+                        <form class="logout-form" method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="logout-button" type="submit" aria-label="Logout">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <path d="m16 17 5-5-5-5"></path>
+                                    <path d="M21 12H9"></path>
+                                </svg>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
                 @else
                     <a class="icon-button" href="{{ route('login') }}" aria-label="Profile login">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1018,13 +1120,6 @@
                         </svg>
                     </a>
                 @endauth
-                <a class="icon-button" href="#cart" aria-label="Shopping cart">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M6 8h12l-1 13H7L6 8Z"></path>
-                        <path d="M9 8a3 3 0 0 1 6 0"></path>
-                    </svg>
-                    <span class="cart-count">2</span>
-                </a>
             </div>
         </header>
     </div>
@@ -1052,22 +1147,11 @@
             </svg>
             New
         </a>
-        <a href="#cart">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M6 8h12l-1 13H7L6 8Z"></path>
-                <path d="M9 8a3 3 0 0 1 6 0"></path>
-            </svg>
-            Cart
-        </a>
         @auth
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <path d="m16 17 5-5-5-5"></path>
-                        <path d="M21 12H9"></path>
-                    </svg>
+                    <span class="shortcut-avatar">{{ strtoupper(substr(auth()->user()->first_name ?? auth()->user()->name, 0, 1)) }}</span>
                     Logout
                 </button>
             </form>
@@ -1080,6 +1164,13 @@
             Profile
         </a>
         @endauth
+        <a href="#cart">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 8h12l-1 13H7L6 8Z"></path>
+                <path d="M9 8a3 3 0 0 1 6 0"></path>
+            </svg>
+            Cart
+        </a>
     </nav>
 
     <div class="container">
