@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
@@ -19,3 +21,16 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'create'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'store'])->name('login.submit');
+
+    Route::get('/', [AdminController::class, 'index'])
+        ->middleware('auth:admin')
+        ->name('dashboard');
+
+    Route::post('/logout', [AdminAuthController::class, 'destroy'])
+        ->middleware('auth:admin')
+        ->name('logout');
+});
