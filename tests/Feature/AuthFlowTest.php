@@ -22,6 +22,7 @@ class AuthFlowTest extends TestCase
             'shopping_preference' => 'all',
             'birthday' => '1998-01-01',
             'address' => '123 Main Market Road',
+            'landmark' => 'Near City Mall',
             'city' => 'Kolkata',
             'state' => 'West Bengal',
             'postal_code' => '700001',
@@ -35,6 +36,7 @@ class AuthFlowTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'arsad@example.com',
             'phone' => '9876543210',
+            'landmark' => 'Near City Mall',
             'referral_code' => 'BG-WELCOME',
             'marketing_opt_in' => true,
         ]);
@@ -55,5 +57,22 @@ class AuthFlowTest extends TestCase
 
         $response->assertRedirect('/');
         $this->assertAuthenticated();
+    }
+
+    public function test_signup_requires_a_valid_ten_digit_indian_mobile_number(): void
+    {
+        $response = $this->from('/signup')->post('/signup', [
+            'first_name' => 'Arsad',
+            'last_name' => 'Islam',
+            'email' => 'invalid-phone@example.com',
+            'phone' => '12345678901',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'terms' => '1',
+        ]);
+
+        $response->assertRedirect('/signup');
+        $response->assertSessionHasErrors('phone');
+        $this->assertGuest();
     }
 }

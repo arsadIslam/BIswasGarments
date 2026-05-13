@@ -280,6 +280,22 @@
             font-weight: 700;
         }
 
+        .field-hint {
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+
+        .field-hint.success {
+            color: #24785b;
+            font-weight: 700;
+        }
+
+        .field-hint.error {
+            color: var(--sale);
+            font-weight: 700;
+        }
+
         .control {
             align-items: center;
             background: var(--soft);
@@ -306,6 +322,16 @@
             min-height: 5rem;
             padding: 0.9rem 0;
             resize: vertical;
+        }
+
+        .phone-prefix {
+            align-items: center;
+            border-right: 1px solid var(--line);
+            color: var(--black);
+            display: inline-flex;
+            font-weight: 900;
+            min-height: 1.7rem;
+            padding-right: 0.7rem;
         }
 
         .form-options {
@@ -621,5 +647,6 @@
             </div>
         </section>
     </main>
+    @yield('scripts')
 </body>
 </html>

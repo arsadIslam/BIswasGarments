@@ -24,9 +24,16 @@ class AuthenticatedSessionController extends Controller
         ]);
 
         $loginField = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        $loginValue = $loginField === 'phone'
+            ? preg_replace('/\D/', '', $credentials['login'])
+            : $credentials['login'];
+
+        if ($loginField === 'phone' && str_starts_with($loginValue, '91') && strlen($loginValue) === 12) {
+            $loginValue = substr($loginValue, 2);
+        }
 
         if (! Auth::attempt([
-            $loginField => $credentials['login'],
+            $loginField => $loginValue,
             'password' => $credentials['password'],
         ], $request->boolean('remember'))) {
             throw ValidationException::withMessages([

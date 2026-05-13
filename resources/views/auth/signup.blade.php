@@ -8,6 +8,47 @@
 @section('form_subtitle', 'Add the details ecommerce stores use for account, delivery, and offer management.')
 
 @section('content')
+    @php
+        $indianStates = [
+            'Andaman and Nicobar Islands',
+            'Andhra Pradesh',
+            'Arunachal Pradesh',
+            'Assam',
+            'Bihar',
+            'Chandigarh',
+            'Chhattisgarh',
+            'Dadra and Nagar Haveli and Daman and Diu',
+            'Delhi',
+            'Goa',
+            'Gujarat',
+            'Haryana',
+            'Himachal Pradesh',
+            'Jammu and Kashmir',
+            'Jharkhand',
+            'Karnataka',
+            'Kerala',
+            'Ladakh',
+            'Lakshadweep',
+            'Madhya Pradesh',
+            'Maharashtra',
+            'Manipur',
+            'Meghalaya',
+            'Mizoram',
+            'Nagaland',
+            'Odisha',
+            'Puducherry',
+            'Punjab',
+            'Rajasthan',
+            'Sikkim',
+            'Tamil Nadu',
+            'Telangana',
+            'Tripura',
+            'Uttar Pradesh',
+            'Uttarakhand',
+            'West Bengal',
+        ];
+    @endphp
+
     <form method="POST" action="{{ route('signup.submit') }}">
         @csrf
 
@@ -57,10 +98,19 @@
             <div class="field">
                 <label for="phone">Mobile Number</label>
                 <div class="control">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 1.9Z"></path>
-                    </svg>
-                    <input id="phone" name="phone" type="tel" value="{{ old('phone') }}" placeholder="+91 98765 43210" required>
+                    <span class="phone-prefix">+91</span>
+                    <input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        value="{{ old('phone') }}"
+                        placeholder="9876543210"
+                        inputmode="numeric"
+                        pattern="[6-9][0-9]{9}"
+                        maxlength="10"
+                        title="Enter a valid 10 digit Indian mobile number"
+                        required
+                    >
                 </div>
                 @error('phone')
                     <span class="field-error">{{ $message }}</span>
@@ -137,9 +187,59 @@
                         <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                     </svg>
-                    <textarea id="address" name="address" placeholder="House no, street, area, landmark">{{ old('address') }}</textarea>
+                    <textarea id="address" name="address" placeholder="House no, street, area">{{ old('address') }}</textarea>
                 </div>
                 @error('address')
+                    <span class="field-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="field full">
+                <label for="landmark">Landmark</label>
+                <div class="control">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M3 21h18"></path>
+                        <path d="M6 21V7l6-4 6 4v14"></path>
+                        <path d="M9 21v-8h6v8"></path>
+                    </svg>
+                    <input id="landmark" name="landmark" type="text" value="{{ old('landmark') }}" placeholder="Nearby school, mall, temple, or market">
+                </div>
+                @error('landmark')
+                    <span class="field-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="field">
+                <label for="postal_code">PIN Code</label>
+                <div class="control">
+                    <input
+                        id="postal_code"
+                        name="postal_code"
+                        type="text"
+                        value="{{ old('postal_code') }}"
+                        placeholder="700001"
+                        inputmode="numeric"
+                        pattern="[0-9]{6}"
+                        maxlength="6"
+                        title="Enter a valid 6 digit Indian PIN code"
+                    >
+                </div>
+                @error('postal_code')
+                    <span class="field-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="field">
+                <label for="state">State</label>
+                <div class="control">
+                    <select id="state" name="state">
+                        <option value="">Select state</option>
+                        @foreach ($indianStates as $state)
+                            <option value="{{ $state }}" @selected(old('state') === $state)>{{ $state }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('state')
                     <span class="field-error">{{ $message }}</span>
                 @enderror
             </div>
@@ -150,26 +250,6 @@
                     <input id="city" name="city" type="text" value="{{ old('city') }}" placeholder="City">
                 </div>
                 @error('city')
-                    <span class="field-error">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="field">
-                <label for="state">State</label>
-                <div class="control">
-                    <input id="state" name="state" type="text" value="{{ old('state') }}" placeholder="State">
-                </div>
-                @error('state')
-                    <span class="field-error">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="field">
-                <label for="postal_code">PIN Code</label>
-                <div class="control">
-                    <input id="postal_code" name="postal_code" type="text" value="{{ old('postal_code') }}" placeholder="700001">
-                </div>
-                @error('postal_code')
                     <span class="field-error">{{ $message }}</span>
                 @enderror
             </div>
@@ -219,4 +299,36 @@
             <a class="text-link" href="{{ route('login') }}">Login here</a>
         </p>
     </form>
+@endsection
+
+@section('scripts')
+    <script>
+        const pinInput = document.getElementById('postal_code');
+        const cityInput = document.getElementById('city');
+        const stateSelect = document.getElementById('state');
+        const fillLocationFromPin = async (pinCode) => {
+            try {
+                const response = await fetch(`https://api.postalpincode.in/pincode/${pinCode}`);
+                const [result] = await response.json();
+                const postOffice = result?.PostOffice?.[0];
+
+                if (!postOffice) {
+                    return;
+                }
+
+                cityInput.value = postOffice.District || postOffice.Block || postOffice.Name || '';
+                stateSelect.value = postOffice.State || '';
+            } catch (error) {
+                // Keep lookup silent; customers can still choose city and state manually.
+            }
+        };
+
+        pinInput?.addEventListener('input', (event) => {
+            event.target.value = event.target.value.replace(/\D/g, '').slice(0, 6);
+
+            if (event.target.value.length === 6) {
+                fillLocationFromPin(event.target.value);
+            }
+        });
+    </script>
 @endsection

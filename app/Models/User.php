@@ -28,6 +28,7 @@ class User extends Authenticatable
         'shopping_preference',
         'birthday',
         'address',
+        'landmark',
         'city',
         'state',
         'postal_code',
