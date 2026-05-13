@@ -132,6 +132,10 @@
             justify-content: flex-end;
         }
 
+        .logout-form {
+            margin: 0;
+        }
+
         .search {
             align-items: center;
             background: var(--soft);
@@ -188,8 +192,11 @@
             grid-template-columns: repeat(5, 1fr);
         }
 
-        .mobile-shortcuts a {
+        .mobile-shortcuts a,
+        .mobile-shortcuts button {
             align-items: center;
+            background: transparent;
+            border: 0;
             color: var(--muted);
             display: flex;
             flex-direction: column;
@@ -198,6 +205,11 @@
             gap: 0.3rem;
             padding: 0.75rem 0.25rem;
             text-transform: uppercase;
+            width: 100%;
+        }
+
+        .mobile-shortcuts form {
+            margin: 0;
         }
 
         .hero {
@@ -987,12 +999,25 @@
                         <path d="M19.5 12.6 12 20l-7.5-7.4a5 5 0 0 1 7.1-7.1l.4.4.4-.4a5 5 0 0 1 7.1 7.1Z"></path>
                     </svg>
                 </a>
-                <a class="icon-button" href="{{ route('login') }}" aria-label="Profile login">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M20 21a8 8 0 0 0-16 0"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                </a>
+                @auth
+                    <form class="logout-form" method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="icon-button" type="submit" aria-label="Logout">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <path d="m16 17 5-5-5-5"></path>
+                                <path d="M21 12H9"></path>
+                            </svg>
+                        </button>
+                    </form>
+                @else
+                    <a class="icon-button" href="{{ route('login') }}" aria-label="Profile login">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M20 21a8 8 0 0 0-16 0"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </a>
+                @endauth
                 <a class="icon-button" href="#cart" aria-label="Shopping cart">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M6 8h12l-1 13H7L6 8Z"></path>
@@ -1034,6 +1059,19 @@
             </svg>
             Cart
         </a>
+        @auth
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <path d="m16 17 5-5-5-5"></path>
+                        <path d="M21 12H9"></path>
+                    </svg>
+                    Logout
+                </button>
+            </form>
+        @else
         <a href="{{ route('login') }}">
             <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M20 21a8 8 0 0 0-16 0"></path>
@@ -1041,6 +1079,7 @@
             </svg>
             Profile
         </a>
+        @endauth
     </nav>
 
     <div class="container">

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('first_name')->after('name');
-            $table->string('last_name')->after('first_name');
-            $table->string('phone')->unique()->after('email');
+            $table->string('first_name')->nullable()->after('name');
+            $table->string('last_name')->nullable()->after('first_name');
+            $table->string('phone')->nullable()->unique()->after('email');
             $table->string('shopping_preference')->nullable()->after('password');
             $table->date('birthday')->nullable()->after('shopping_preference');
             $table->text('address')->nullable()->after('birthday');
@@ -32,6 +32,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropIndex(['referral_code']);
+
             $table->dropColumn([
                 'first_name',
                 'last_name',
