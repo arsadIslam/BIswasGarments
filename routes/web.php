@@ -4,10 +4,13 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Models\HomepageSetting;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', [
+        'homepage' => HomepageSetting::homepageContent(),
+    ]);
 })->name('home');
 
 Route::middleware('guest')->group(function () {
@@ -29,6 +32,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])
         ->middleware('auth:admin')
         ->name('dashboard');
+
+    Route::get('/homepage/edit', [AdminController::class, 'editHomepage'])
+        ->middleware('auth:admin')
+        ->name('homepage.edit');
+
+    Route::put('/homepage', [AdminController::class, 'updateHomepage'])
+        ->middleware('auth:admin')
+        ->name('homepage.update');
 
     Route::post('/logout', [AdminAuthController::class, 'destroy'])
         ->middleware('auth:admin')

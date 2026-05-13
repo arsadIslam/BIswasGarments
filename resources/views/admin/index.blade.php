@@ -86,6 +86,17 @@
             font-size: 1.6rem;
         }
 
+        .action-link {
+            background: #050505;
+            border-radius: 999px;
+            color: #ffffff;
+            display: inline-flex;
+            font-weight: 900;
+            margin-top: 1.25rem;
+            padding: 0.85rem 1.2rem;
+            text-decoration: none;
+        }
+
         @media (max-width: 720px) {
             .topbar {
                 align-items: flex-start;
@@ -111,6 +122,8 @@
         <section class="panel">
             <h1>Admin Dashboard</h1>
             <p>Welcome, {{ auth('admin')->user()->username }}. This dashboard is ready for product, order, and customer management modules.</p>
+
+            <a class="action-link" href="{{ route('admin.homepage.edit') }}">Edit Homepage</a>
 
             <div class="cards">
                 <div class="card">

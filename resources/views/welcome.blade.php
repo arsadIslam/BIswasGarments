@@ -34,6 +34,28 @@
             margin: 0;
         }
 
+        @keyframes riseIn {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes softZoom {
+            from {
+                transform: scale(1.08);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
         a {
             color: inherit;
             text-decoration: none;
@@ -301,25 +323,26 @@
         .hero-main {
             background:
                 linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.22)),
-                linear-gradient(135deg, #d7b39a, #7a3c34);
+                url("https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85");
+            background-position: center;
+            background-size: cover;
             border-radius: 1.4rem;
             color: var(--paper);
             min-height: 620px;
             overflow: hidden;
             padding: clamp(2rem, 5vw, 4.5rem);
             position: relative;
+            animation: riseIn 700ms ease both;
         }
 
         .hero-main::after {
-            background:
-                linear-gradient(180deg, #f3ddcd 0%, #191210 100%);
-            border-radius: 11rem 11rem 1.5rem 1.5rem;
-            bottom: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 64%);
             content: "";
-            height: 72%;
+            height: 24rem;
             position: absolute;
-            right: 8%;
-            width: min(34%, 280px);
+            right: -6rem;
+            top: -6rem;
+            width: 24rem;
         }
 
         .hero-copy {
@@ -373,6 +396,14 @@
             gap: 0.45rem;
             justify-content: center;
             padding: 0.92rem 1.35rem;
+            transition: transform 180ms ease, box-shadow 180ms ease;
+        }
+
+        .button:hover,
+        .add-cart:hover,
+        .quick-view:hover,
+        .icon-button:hover {
+            transform: translateY(-2px);
         }
 
         .button.light {
@@ -400,6 +431,15 @@
             overflow: hidden;
             padding: 1.5rem;
             position: relative;
+            animation: riseIn 700ms ease both;
+            transition: transform 220ms ease, box-shadow 220ms ease;
+        }
+
+        .side-card:hover,
+        .look-card:hover,
+        .product-card:hover {
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.16);
+            transform: translateY(-6px);
         }
 
         .side-card.dark {
@@ -413,7 +453,9 @@
             line-height: 0.94;
             margin: 0.55rem 0;
             max-width: 320px;
+            position: relative;
             text-transform: uppercase;
+            z-index: 1;
         }
 
         .side-card p {
@@ -429,15 +471,39 @@
             color: rgba(255, 255, 255, 0.65);
         }
 
+        .side-card .eyebrow {
+            position: relative;
+            z-index: 1;
+        }
+
         .side-card::after {
-            background: linear-gradient(180deg, #f4dfcf, #8b4238);
-            border-radius: 8rem 8rem 1.2rem 1.2rem;
-            bottom: -1rem;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.22));
             content: "";
-            height: 170px;
+            inset: 0;
+            pointer-events: none;
             position: absolute;
-            right: 1.4rem;
-            width: 126px;
+        }
+
+        .side-image,
+        .look-image,
+        .product-image-real {
+            height: 100%;
+            inset: 0;
+            object-fit: cover;
+            position: absolute;
+            width: 100%;
+        }
+
+        .side-image,
+        .look-image {
+            animation: softZoom 900ms ease both;
+            transition: transform 500ms ease;
+        }
+
+        .side-card:hover .side-image,
+        .look-card:hover .look-image,
+        .product-card:hover .product-image-real {
+            transform: scale(1.06);
         }
 
         .section {
@@ -450,6 +516,7 @@
             gap: 1rem;
             justify-content: space-between;
             margin-bottom: 1.3rem;
+            animation: riseIn 700ms ease both;
         }
 
         h2 {
@@ -500,6 +567,7 @@
             overflow: hidden;
             padding: 1rem;
             position: relative;
+            transition: transform 220ms ease, box-shadow 220ms ease;
         }
 
         .look-card.tall {
@@ -512,15 +580,10 @@
         }
 
         .look-card::after {
-            background: linear-gradient(180deg, #f5ddcf, #45302b);
-            border-radius: 9rem 9rem 1.2rem 1.2rem;
-            bottom: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.72));
             content: "";
-            height: 62%;
-            left: 50%;
+            inset: 0;
             position: absolute;
-            transform: translateX(-50%);
-            width: 42%;
         }
 
         .look-card h3,
@@ -530,6 +593,7 @@
         }
 
         .look-card h3 {
+            color: var(--paper);
             font-size: 1.5rem;
             letter-spacing: -0.04em;
             margin: 0.4rem 0 0;
@@ -537,7 +601,7 @@
         }
 
         .look-card span {
-            color: var(--muted);
+            color: rgba(255, 255, 255, 0.72);
             font-weight: 800;
         }
 
@@ -595,7 +659,8 @@
             border: 1px solid var(--line);
             border-radius: 1.2rem;
             overflow: hidden;
-            transition: box-shadow 180ms ease, transform 180ms ease;
+            transition: box-shadow 220ms ease, transform 220ms ease;
+            animation: riseIn 700ms ease both;
         }
 
         .product-card:hover {
@@ -609,15 +674,15 @@
             display: flex;
             height: 360px;
             justify-content: center;
+            overflow: hidden;
             position: relative;
         }
 
         .product-media::after {
-            background: linear-gradient(180deg, #fff7f0, #37211e);
-            border-radius: 7rem 7rem 1.1rem 1.1rem;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.18));
             content: "";
-            height: 210px;
-            width: 140px;
+            inset: 0;
+            position: absolute;
         }
 
         .badge {
@@ -647,6 +712,10 @@
             top: 0.8rem;
             width: 2.5rem;
             z-index: 1;
+        }
+
+        .product-image-real {
+            transition: transform 500ms ease;
         }
 
         .product-info {
@@ -742,7 +811,9 @@
         .sale-band {
             background:
                 linear-gradient(90deg, rgba(5, 5, 5, 0.94), rgba(5, 5, 5, 0.62)),
-                linear-gradient(135deg, #c78370, #281716);
+                url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=85");
+            background-position: center;
+            background-size: cover;
             border-radius: 1.4rem;
             color: var(--paper);
             display: grid;
@@ -1050,7 +1121,7 @@
 </head>
 <body>
     <div class="top-strip">
-        <span>New drop live</span> Extra 10% off on prepaid fashion orders
+        <span>{{ $homepage['promo_label'] }}</span> {{ $homepage['promo_text'] }}
     </div>
 
     <div class="container">
@@ -1182,44 +1253,43 @@
                             <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <path d="m12 2 2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2Z"></path>
                             </svg>
-                            Fresh fashion edit
+                            {{ $homepage['hero_eyebrow'] }}
                         </p>
-                        <h1>New styles for every wardrobe.</h1>
-                        <p>
-                            A sharper ecommerce homepage for Biswas Garments with clean product discovery,
-                            fast shopping actions, and a premium fashion-store layout.
-                        </p>
+                        <h1>{{ $homepage['hero_title'] }}</h1>
+                        <p>{{ $homepage['hero_description'] }}</p>
                         <div class="button-row">
                             <a class="button light" href="#products">
-                                Shop New Arrivals
+                                {{ $homepage['hero_primary_button'] }}
                                 <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <path d="M5 12h14"></path>
                                     <path d="m13 6 6 6-6 6"></path>
                                 </svg>
                             </a>
-                            <a class="button ghost" href="#collections">Explore Collections</a>
+                            <a class="button ghost" href="#collections">{{ $homepage['hero_secondary_button'] }}</a>
                         </div>
                     </div>
                 </div>
 
                 <aside class="hero-side">
                     <a class="side-card dark" href="#sale">
-                        <p class="eyebrow">Limited sale</p>
-                        <h2>Flat 40% off festive picks</h2>
-                        <p>Sarees, kurtis, shirts, denim, and kids sets for the season.</p>
+                        <img class="side-image" src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=85" alt="Festive fashion sale">
+                        <p class="eyebrow">{{ $homepage['sale_card_eyebrow'] }}</p>
+                        <h2>{{ $homepage['sale_card_title'] }}</h2>
+                        <p>{{ $homepage['sale_card_description'] }}</p>
                     </a>
                     <a class="side-card" href="#products">
-                        <p class="eyebrow">Trending now</p>
-                        <h2>Minimal shirts and summer dresses</h2>
-                        <p>Curated bestseller cards ready for your product catalog.</p>
+                        <img class="side-image" src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=900&q=85" alt="Trending fashion collection">
+                        <p class="eyebrow">{{ $homepage['trend_card_eyebrow'] }}</p>
+                        <h2>{{ $homepage['trend_card_title'] }}</h2>
+                        <p>{{ $homepage['trend_card_description'] }}</p>
                     </a>
                 </aside>
             </section>
 
             <section class="section" id="collections">
                 <div class="section-head">
-                    <h2>Explore categories</h2>
-                    <p>Quick category links inspired by modern fashion stores, built for fast browsing.</p>
+                    <h2>{{ $homepage['categories_title'] }}</h2>
+                    <p>{{ $homepage['categories_description'] }}</p>
                 </div>
 
                 <div class="category-rail">
@@ -1268,28 +1338,33 @@
 
             <section class="section">
                 <div class="section-head">
-                    <h2>Season lookbook</h2>
-                    <p>Large visual tiles help the homepage feel more like a real fashion ecommerce storefront.</p>
+                    <h2>{{ $homepage['lookbook_title'] }}</h2>
+                    <p>{{ $homepage['lookbook_description'] }}</p>
                 </div>
 
                 <div class="lookbook-grid">
                     <a class="look-card tall" href="#products">
+                        <img class="look-image" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=85" alt="Relaxed men's fashion look">
                         <span>01 / New Drop</span>
                         <h3>Relaxed men's fits</h3>
                     </a>
                     <a class="look-card wide" href="#products">
+                        <img class="look-image" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1100&q=85" alt="Women's printed fashion edit">
                         <span>02 / Women's Edit</span>
                         <h3>Printed summer styles</h3>
                     </a>
                     <a class="look-card" href="#products">
+                        <img class="look-image" src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&w=800&q=85" alt="Kids colorful daily wear">
                         <span>03 / Kids</span>
                         <h3>Colorful daily wear</h3>
                     </a>
                     <a class="look-card" href="#products">
+                        <img class="look-image" src="https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=800&q=85" alt="Festive ethnic collection">
                         <span>04 / Festive</span>
                         <h3>Ethnic collection</h3>
                     </a>
                     <a class="look-card wide" href="#products">
+                        <img class="look-image" src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1100&q=85" alt="Wardrobe essentials fashion">
                         <span>05 / Essentials</span>
                         <h3>Wardrobe basics</h3>
                     </a>
@@ -1298,8 +1373,8 @@
 
             <section class="section" id="products">
                 <div class="section-head">
-                    <h2>Trending products</h2>
-                    <p>Precise ecommerce cards with wishlist, rating, price, quick view, and add-to-cart actions.</p>
+                    <h2>{{ $homepage['products_title'] }}</h2>
+                    <p>{{ $homepage['products_description'] }}</p>
                 </div>
 
                 <div class="toolbar">
@@ -1323,6 +1398,7 @@
                 <div class="product-grid">
                     <article class="product-card">
                         <div class="product-media">
+                            <img class="product-image-real" src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=700&q=85" alt="Classic Cotton Shirt">
                             <span class="badge">New</span>
                             <button class="wishlist" type="button" aria-label="Add Classic Cotton Shirt to wishlist">
                                 <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1356,6 +1432,7 @@
 
                     <article class="product-card">
                         <div class="product-media">
+                            <img class="product-image-real" src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=700&q=85" alt="Printed Summer Dress">
                             <span class="badge">-20%</span>
                             <button class="wishlist" type="button" aria-label="Add Printed Summer Dress to wishlist">
                                 <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1389,6 +1466,7 @@
 
                     <article class="product-card">
                         <div class="product-media">
+                            <img class="product-image-real" src="https://images.unsplash.com/photo-1503919005314-30d93d07d823?auto=format&fit=crop&w=700&q=85" alt="Kids Casual Set">
                             <span class="badge">Hot</span>
                             <button class="wishlist" type="button" aria-label="Add Kids Casual Set to wishlist">
                                 <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1422,6 +1500,7 @@
 
                     <article class="product-card">
                         <div class="product-media">
+                            <img class="product-image-real" src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=85" alt="Elegant Silk Saree">
                             <span class="badge">Festive</span>
                             <button class="wishlist" type="button" aria-label="Add Elegant Silk Saree to wishlist">
                                 <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1506,19 +1585,17 @@
 
             <section class="sale-band" id="sale">
                 <div>
-                    <p class="eyebrow">Sale preview</p>
-                    <h2>Build campaigns for new drops, offers, and festive edits.</h2>
-                    <p>
-                        This section can later connect to real sale collections from your Laravel product database.
-                    </p>
+                    <p class="eyebrow">{{ $homepage['sale_band_eyebrow'] }}</p>
+                    <h2>{{ $homepage['sale_band_title'] }}</h2>
+                    <p>{{ $homepage['sale_band_description'] }}</p>
                 </div>
                 <a class="button light" href="#products">Shop Sale</a>
             </section>
 
             <section class="newsletter">
                 <div>
-                    <h2>Never miss a drop.</h2>
-                    <p>Capture customer emails for product launches, restock alerts, and seasonal ecommerce campaigns.</p>
+                    <h2>{{ $homepage['newsletter_title'] }}</h2>
+                    <p>{{ $homepage['newsletter_description'] }}</p>
                 </div>
                 <form class="newsletter-form">
                     <input type="email" placeholder="Enter email address" aria-label="Email address">
